@@ -5,6 +5,11 @@ namespace MogobariWebAPI.Models
 {
     public partial class Vendor
     {
+        public Vendor()
+        {
+            Product = new HashSet<Product>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
@@ -20,5 +25,6 @@ namespace MogobariWebAPI.Models
         public string MobileNumber { get; set; }
 
         public virtual Address Address { get; set; }
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

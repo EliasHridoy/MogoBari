@@ -21,7 +21,10 @@ namespace MogobariWebAPI.Models
         public virtual DbSet<CustomerPassword> CustomerPassword { get; set; }
         public virtual DbSet<CustomerRole> CustomerRole { get; set; }
         public virtual DbSet<DeliveryDate> DeliveryDate { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<OrderItem> OrderItem { get; set; }
         public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<Store> Store { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -91,10 +94,6 @@ namespace MogobariWebAPI.Models
                 entity.HasIndex(e => e.ParentCategoryId)
                     .HasName("IX_Category");
 
-                entity.Property(e => e.MetaKeywords).HasMaxLength(400);
-
-                entity.Property(e => e.MetaTitle).HasMaxLength(400);
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(400);
@@ -157,6 +156,66 @@ namespace MogobariWebAPI.Models
                     .HasMaxLength(400);
             });
 
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.Property(e => e.CurrencyRate).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderDiscount).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderShippingExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderShippingInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubTotalDiscountExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubTotalDiscountInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubtotalExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderSubtotalInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderTotal).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PaymentMethodAdditionalFeeExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PaymentMethodAdditionalFeeInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.RefundedAmount).HasColumnType("decimal(18, 4)");
+            });
+
+            modelBuilder.Entity<OrderItem>(entity =>
+            {
+                entity.Property(e => e.DiscountAmountExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.DiscountAmountInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.ItemWeight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OriginalProductCost).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PriceExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PriceInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.UnitPriceExclTax).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.UnitPriceInclTax).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderItem)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderItem_Order");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderItem)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrderItem_Product");
+            });
+
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.AdditionalShippingCharge).HasColumnType("decimal(18, 4)");
@@ -188,6 +247,36 @@ namespace MogobariWebAPI.Models
                 entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Width).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Product_Category");
+
+                entity.HasOne(d => d.Vendor)
+                    .WithMany(p => p.Product)
+                    .HasForeignKey(d => d.VendorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Product_VendorId");
+            });
+
+            modelBuilder.Entity<Store>(entity =>
+            {
+                entity.Property(e => e.CompanyName).HasMaxLength(1000);
+
+                entity.Property(e => e.CompanyPhoneNumber).HasMaxLength(1000);
+
+                entity.Property(e => e.CompanyVat).HasMaxLength(1000);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(400);
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.Store)
+                    .HasForeignKey(d => d.AddressId)
+                    .HasConstraintName("FK_Store_Vendor");
             });
 
             modelBuilder.Entity<Vendor>(entity =>

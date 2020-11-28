@@ -37,7 +37,7 @@ namespace MogobariWebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

@@ -1,0 +1,11 @@
+Database First : initial command
+Scaffold-DbContext "Data Source=windows-7de51d1\sqlexpress;Initial Catalog=Mogobari_db;Integrated Security=True" Microsoft.Entityframeworkcore.Sqlserver -OutputDir Models 
+
+
+
+
+
+Database First : Update command
+Scaffold-DbContext "Data Source=windows-7de51d1\sqlexpress;Initial Catalog=Mogobari_db;Integrated Security=True" Microsoft.Entityframeworkcore.Sqlserver -OutputDir Models  -force
+
+

@@ -22,7 +22,7 @@ namespace MogobariWebAPI.Controllers
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
             return await _productsManager.Get() ;
@@ -42,7 +42,35 @@ namespace MogobariWebAPI.Controllers
             return product;
         }
 
-        
+        /// <summary>
+        /// Get Product by category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        [HttpGet("GetByCategory/{categoryId}")]
+        public async Task<ActionResult<List<Product>>> GetByCategory(int categoryId)
+        {
+            List<Product> products = await _productsManager.GetProductsByCategory(categoryId);
+
+            return products;
+        }
+
+
+        /// <summary>
+        /// Get Product by Vendor
+        /// </summary>
+        /// <param name="vendorId"></param>
+        /// <returns></returns>
+        [HttpGet("GetByVendor/{vendorId}")]
+        public async Task<ActionResult<List<Product>>> GetByVendor(int vendorId)
+        {
+            List<Product> products = await _productsManager.GetProductsByVendor(vendorId);
+
+            return products;
+        }
+
+
+
         /// <summary>
         /// Get for Update method
         /// </summary>
@@ -62,12 +90,12 @@ namespace MogobariWebAPI.Controllers
         }
 
         // PUT: api/Products/5
-        [HttpPut("{id}")]
+        [HttpPut("Update/   {id}")]
         public async Task<ActionResult<Product>> Update(int id, Product product)
         {
-            if (id != product.Id)
-            {
-                return BadRequest();
+                if (id != product.Id)
+                {
+                    return BadRequest();
             }
 
             Product newProduct = await _productsManager.Update(id, product);

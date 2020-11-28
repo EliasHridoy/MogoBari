@@ -8,6 +8,7 @@ namespace MogobariWebAPI.Models
         public Address()
         {
             Customer = new HashSet<Customer>();
+            Store = new HashSet<Store>();
             Vendor = new HashSet<Vendor>();
         }
 
@@ -24,6 +25,7 @@ namespace MogobariWebAPI.Models
         public DateTime CreateOnUtc { get; set; }
 
         public virtual ICollection<Customer> Customer { get; set; }
+        public virtual ICollection<Store> Store { get; set; }
         public virtual ICollection<Vendor> Vendor { get; set; }
     }
 }

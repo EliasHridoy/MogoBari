@@ -50,7 +50,7 @@ namespace MogobariWebAPI.Controllers
 
 
 
-        // PUT: api/Vendors/5
+        // PUT: api/Vendors/Update/5
         [HttpGet("Update/{number}")]
         public ActionResult<VendorDetailsViewModel> Update(string number)
         {
@@ -70,7 +70,7 @@ namespace MogobariWebAPI.Controllers
             return vendorDetails;
         }
 
-        // PUT: api/Vendors/5
+        // PUT: api/Vendors/Update/5
         [HttpPut("Update/{number}")]
         public ActionResult<VendorDetailsViewModel> Update(string number,
             VendorDetailsViewModel vendorDetails)
@@ -127,7 +127,7 @@ namespace MogobariWebAPI.Controllers
             return "Register customer get method called";
         }
 
-        // POST: api/Customers/Register
+        // POST: api/Vendors/Register
         [HttpPost("Register")]
         public ActionResult<Vendor> Register(Vendor vendor)
         {

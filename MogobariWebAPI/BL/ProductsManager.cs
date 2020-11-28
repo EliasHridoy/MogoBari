@@ -33,6 +33,36 @@ namespace MogobariWebAPI.BL
             return product;
         }
 
+        /// <summary>
+        /// Get Product by CategoryID
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public async Task<List<Product>> GetProductsByCategory(int categoryId)
+        {
+            List<Product> products = await _context.Product
+                                                .Where(p => p.CategoryId == categoryId &&
+                                                        p.Deleted==false)
+                                                .ToListAsync();
+
+            return products;
+        }
+
+        /// <summary>
+        /// Get products by vendor ID
+        /// </summary>
+        /// <param name="vendorId"></param>
+        /// <returns></returns>
+
+        public async Task<List<Product>> GetProductsByVendor(int vendorId)
+        {
+            List<Product> products = await _context.Product
+                                                .Where(p => p.VendorId == vendorId &&
+                                                        p.Deleted == false)
+                                                .ToListAsync();
+
+            return products;
+        }
 
         public async Task<Product> Update(int id)
         {
