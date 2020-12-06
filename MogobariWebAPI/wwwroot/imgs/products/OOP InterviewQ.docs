@@ -1,0 +1,39 @@
+﻿1. What are the core concepts of OOP?
+
+Answer:
+The core concepts of OOP are Abstraction, Encapsulation, Inheritance, and Polymorphism. 
+>>Using abstract class/Interface we express the intent of the class rather than the actual implementation. In a way, one class should not know the inner details of another in order to use it. There can’t be any object of abstract class.
+
+>>The concept of encapsulation is nothing but a Class that is used to hide some of the fields/property that hold secetive data and the methods to perform the functions which can be accessed based on access modifier. 
+>>Polymorphism means one name many forms. It is further of two types — static/compile-time and dynamic/run-time. Static polymorphism is achieved using method overloading and dynamic polymorphism using method overriding. It is closely related to inheritance. We can write a code that works on the superclass, and it will work with any subclass type as well.
+
+2. What is a Class in OOP?
+
+Answer:
+A Class in Object-oriented Programming is ideally called as a template or a blueprint of an object. An object of its class type will have the same properties as defined in the implementation of Class. An object will always be a specific instance of a class. .
+
+3. What is a constructor in OOP?
+
+Answer:
+A constructor is a method used to invoke the object creation process by initializing the state of the object. The name of the constructor should be the name of the class ideally. A constructor must not have any return type. It must be public.
+
+4. What is the Destructor in OOP?
+
+Answer:
+A Destructor is a method which is invoked at the time of the object is destroyed or when its’ scope is about to end. The method will be called explicitly or implicitly based on the programming language used. In C++, destructor needs to be called whereas in Java, it is not needed and it will be handled by garbage collection mechanism.
+
+5. What is an Abstract class in OOP?
+
+Answer:
+Using abstract class/Interface we express the intent of the class rather than the actual implementation. In a way, one class should not know the inner details of another in order to use it. There can’t be any object of abstract class.
+
+7. What is static and dynamic binding in OOP?
+
+Answer:
+Static binding is also called as early binding which happens at compile time whereas Dynamic binding is called late binding which happens at the time of run time. Example of static binding is method overloading and dynamic binding is method overriding.
+
+8. What is operator overloading in OOP?
+
+Answer:
+Operator overloading is sometimes called as ad-hoc polymorphism which is defined as different operators will have different mechanism based on the placement of operators and the arguments. In operator overloading, the semantics of the programming language is redefined which is not usually recommended. In case of Java programming language, it was decided by the creators not to use this feature as Java is a production language mostly.
+

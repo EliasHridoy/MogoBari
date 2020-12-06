@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MogobariWebAPI.BL;
+using MogobariWebAPI.BL.Interface;
 using MogobariWebAPI.Models;
+using MogobariWebAPI.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace MogobariWebAPI.Controllers
 {
@@ -14,18 +20,27 @@ namespace MogobariWebAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IMapper _mapper;
         private readonly ProductsManager _productsManager;
+        private readonly IPictureManager _pictureManager;
 
-        public ProductsController()
+        public ProductsController(IMapper mapper, 
+            IHostingEnvironment hostingEnvironment,
+            IPictureManager pictureManager)
         {
+            _hostingEnvironment = hostingEnvironment;
+            _mapper = mapper;
             _productsManager = new ProductsManager();
+            _pictureManager = pictureManager;
         }
 
         // GET: api/Products
         [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
-            return await _productsManager.Get() ;
+            var pro = await _productsManager.Get() ;
+            return pro;
         }
 
         // GET: api/Products/5
@@ -115,12 +130,29 @@ namespace MogobariWebAPI.Controllers
 
         // POST: api/Categories
         [HttpPost("Create")]
-        public async Task<ActionResult<Product>> Create(Product product)
+        public async Task<ActionResult<Product>> Create([FromForm] ProductWithImageFile productWithImage)
         {
-            Product newProduct = await _productsManager.Create(product);
+            // var product = _mapper.Map<ProductWithImageFile, Product>(productWithImage);
+            Product product = JsonConvert.DeserializeObject<Product>(productWithImage.product);
 
-            return CreatedAtAction("Get", new { id = newProduct.Id }, newProduct);
+            //saving picture and geting it back with Id
+            List<Picture> pictures = await _pictureManager.Create(productWithImage.Images, "products");
+
+            foreach (var picture in pictures)
+            {
+                ProductPictureMapping productPicture = new ProductPictureMapping();
+                productPicture.PictureId = picture.Id;
+
+                product.ProductPictureMapping.Add(productPicture); 
+            }
+            
+            Product newProduct = await _productsManager.Create(product);
+            
+
+            return newProduct;
         }
+
+   
 
 
         [HttpGet("Delete/{id}")]

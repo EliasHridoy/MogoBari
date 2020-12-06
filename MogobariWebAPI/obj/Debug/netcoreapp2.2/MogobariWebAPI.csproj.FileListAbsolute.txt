@@ -1,4 +1,3 @@
-C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.csprojAssemblyReference.cache
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.RazorAssemblyInfo.cache
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.RazorAssemblyInfo.cs
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.AssemblyInfoInputs.cache
@@ -16,4 +15,5 @@ C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\n
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.pdb
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.genruntimeconfig.cache
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\bin\Debug\netcoreapp2.2\libman.json
+C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.csprojAssemblyReference.cache
 C:\Users\elikh.WINDOWS-7DE51D1\Desktop\MogobariWebAPI\MogobariWebAPI\obj\Debug\netcoreapp2.2\MogobariWebAPI.csproj.CoreCompileInputs.cache

@@ -23,7 +23,9 @@ namespace MogobariWebAPI.Models
         public virtual DbSet<DeliveryDate> DeliveryDate { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderItem> OrderItem { get; set; }
+        public virtual DbSet<Picture> Picture { get; set; }
         public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<ProductPictureMapping> ProductPictureMapping { get; set; }
         public virtual DbSet<Store> Store { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
@@ -216,6 +218,11 @@ namespace MogobariWebAPI.Models
                     .HasConstraintName("FK_OrderItem_Product");
             });
 
+            modelBuilder.Entity<Picture>(entity =>
+            {
+                entity.Property(e => e.Filename).HasMaxLength(300);
+            });
+
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.AdditionalShippingCharge).HasColumnType("decimal(18, 4)");
@@ -259,6 +266,21 @@ namespace MogobariWebAPI.Models
                     .HasForeignKey(d => d.VendorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_VendorId");
+            });
+
+            modelBuilder.Entity<ProductPictureMapping>(entity =>
+            {
+                entity.ToTable("Product_Picture_Mapping");
+
+                entity.HasOne(d => d.Picture)
+                    .WithMany(p => p.ProductPictureMapping)
+                    .HasForeignKey(d => d.PictureId)
+                    .HasConstraintName("FK_Product_Picture_Mapping_PictureId_Picture_Id");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.ProductPictureMapping)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_Product_Picture_Mapping_ProductId_Product_Id");
             });
 
             modelBuilder.Entity<Store>(entity =>
