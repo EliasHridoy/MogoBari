@@ -22,6 +22,7 @@ namespace MogobariWebAPI.Controllers
             _categoryManager = new CategoryManager();
         }
 
+
         // GET: api/Categories/Get
         [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
@@ -43,13 +44,14 @@ namespace MogobariWebAPI.Controllers
             return category;
         }
 
-
+        
         //Get : Update
         [HttpGet("Update/{id}")]
         public async Task<ActionResult<Category>> Update(int id) 
         {
             return await _categoryManager.Update(id);
         }
+        
 
         // PUT: api/Categories/5
         [HttpPut("Update/{id}")]
@@ -107,6 +109,6 @@ namespace MogobariWebAPI.Controllers
             bool success = await _categoryManager.DeleteConfirm(id);            
             return success;
         }
-
+        
     }
 }

@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using AutoMapper;
 using MogobariWebAPI.Helper;
 using MogobariWebAPI.Models;
 using MogobariWebAPI.BL.Interface;
 using MogobariWebAPI.BL;
-using Microsoft.AspNetCore.Internal;
+using Microsoft.OpenApi.Models;
 
 namespace MogobariWebAPI
 {
@@ -47,7 +40,7 @@ namespace MogobariWebAPI
 
             services.AddSwaggerGen(gen =>
             {
-                gen.SwaggerDoc("v1.0", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "MogoBari API", Version = "v1.0" });
+                gen.SwaggerDoc("EliasHridoy", new OpenApiInfo { Title = "MogoBari API", Version = "v1" });
             });
         }
 
@@ -63,11 +56,13 @@ namespace MogobariWebAPI
             app.UseStaticFiles();
 
             app.UseSwagger();
-            app.UseSwaggerUI(ui =>
-            {
-                ui.SwaggerEndpoint("/swagger/v1/swagger.json", "MogoBari API Endpoint");
-                ui.RoutePrefix = string.Empty;
-            });
+            app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/EliasHridoy/swagger.json", "MogoBari Api"));
+
+
+            //app.UseSwaggerUI(ui =>
+            //{
+            //    ui.SwaggerEndpoint("/swagger/EliasHridoy/swagger.json", "MogoBari API Endpoint");
+            //});
 
             app.UseMvc();
         }
