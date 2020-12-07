@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MogobariWebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -19,22 +18,12 @@ namespace MogobariWebAPI.BL
 
         public async Task<List<Product>> Get()
         {
-            var pro = await _context.Product
-                                    .Include(pr => pr.ProductPictureMapping)
-                                        .ThenInclude(pp => pp.Picture)
-                                    .Where(pr=>pr.Deleted==false)
-                                    .ToListAsync();
-            return pro;
+            return await _context.Product.ToListAsync();
         }
 
         public async Task<Product> Get(int id)
         {
-            var product = await _context.Product
-                                        .Include(pr=>pr.ProductPictureMapping)
-                                            .ThenInclude(pp=>pp.Picture)
-                                        .Where(pr=>pr.Id==id &&
-                                                   pr.Deleted == false)
-                                        .FirstOrDefaultAsync();
+            var product = await _context.Product.FindAsync(id);
 
             if (product == null)
             {
@@ -64,11 +53,10 @@ namespace MogobariWebAPI.BL
         /// </summary>
         /// <param name="vendorId"></param>
         /// <returns></returns>
+
         public async Task<List<Product>> GetProductsByVendor(int vendorId)
         {
             List<Product> products = await _context.Product
-                                                .Include(p=>p.ProductPictureMapping)
-                                                    .ThenInclude(p=>p.Picture)
                                                 .Where(p => p.VendorId == vendorId &&
                                                         p.Deleted == false)
                                                 .ToListAsync();
@@ -144,18 +132,10 @@ namespace MogobariWebAPI.BL
             {
                 return false;
             }
-            product.Deleted = true;
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Product.Remove(product);
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch(DbUpdateException)
-            {
-                return false;
-            }
             return true;
         }
 

@@ -1,27 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\elikh.WINDOWS-7DE51D1\\Desktop\\MogobariWebAPI\\MogobariWebAPI\\MogobariWebAPI.csproj": {}
+    "F:\\BrotechIT\\MogoBari\\MogobariWebAPI\\MogobariWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\elikh.WINDOWS-7DE51D1\\Desktop\\MogobariWebAPI\\MogobariWebAPI\\MogobariWebAPI.csproj": {
+    "F:\\BrotechIT\\MogoBari\\MogobariWebAPI\\MogobariWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\elikh.WINDOWS-7DE51D1\\Desktop\\MogobariWebAPI\\MogobariWebAPI\\MogobariWebAPI.csproj",
+        "projectUniqueName": "F:\\BrotechIT\\MogoBari\\MogobariWebAPI\\MogobariWebAPI.csproj",
         "projectName": "MogobariWebAPI",
-        "projectPath": "C:\\Users\\elikh.WINDOWS-7DE51D1\\Desktop\\MogobariWebAPI\\MogobariWebAPI\\MogobariWebAPI.csproj",
-        "packagesPath": "C:\\Users\\elikh.WINDOWS-7DE51D1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\elikh.WINDOWS-7DE51D1\\Desktop\\MogobariWebAPI\\MogobariWebAPI\\obj\\",
+        "projectPath": "F:\\BrotechIT\\MogoBari\\MogobariWebAPI\\MogobariWebAPI.csproj",
+        "packagesPath": "C:\\Users\\SR\\.nuget\\packages\\",
+        "outputPath": "F:\\BrotechIT\\MogoBari\\MogobariWebAPI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\elikh.WINDOWS-7DE51D1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\SR\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,14 +39,6 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[9.0.0, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
               "target": "Package",
@@ -85,9 +78,9 @@
               "target": "Package",
               "version": "[2.2.4, )"
             },
-            "Swashbuckle.AspNetCore": {
+            "SQL": {
               "target": "Package",
-              "version": "[5.6.3, )"
+              "version": "[1.0.0.1, )"
             }
           },
           "imports": [
@@ -100,7 +93,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

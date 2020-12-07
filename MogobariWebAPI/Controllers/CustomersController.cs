@@ -26,8 +26,6 @@ namespace MogobariWebAPI.Controllers
             _addressManager = new AddressManager();
             _context = new Mogobari_dbContext();
         }
-        
-
 
         // GET: api/Customers
         [HttpGet("Get")]
@@ -59,7 +57,7 @@ namespace MogobariWebAPI.Controllers
             return customer;
         }
 
-        
+
         // PUT: api/Customers/5
         [HttpGet("Update/{number}")]
         public ActionResult<CustomerDetailsViewModel> Update(string number)
@@ -130,7 +128,7 @@ namespace MogobariWebAPI.Controllers
         }
 
 
-        
+
 
         // Get: api/Customers/Register
         [HttpGet("Register")]
@@ -158,7 +156,6 @@ namespace MogobariWebAPI.Controllers
 
         }
 
-
         // GET: api/Customers/Delete/01818789852
         [HttpGet("Delete/{number}")]
         public ActionResult<Customer> Delete(string number)
@@ -181,6 +178,10 @@ namespace MogobariWebAPI.Controllers
 
             
         }
-        
+
+        public bool CustomerExists(int id)
+        {
+            return _context.Customer.Any(e => e.Id == id);
+        }
     }
 }

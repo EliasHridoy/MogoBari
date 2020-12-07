@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Extensions.Configuration;
 
 namespace MogobariWebAPI.Controllers
 {
@@ -13,17 +10,11 @@ namespace MogobariWebAPI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        public Microsoft.Extensions.Configuration.IConfiguration Configuration { get; }
-        public ValuesController(Microsoft.Extensions.Configuration.IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
         // GET api/values
         [HttpGet]
-        public ActionResult<string> Get()
+        public ActionResult<IEnumerable<string>> Get()
         {
-            return  DateTime.UtcNow.ToString();
-            return Configuration.GetConnectionString("MogoBari_Db");
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5

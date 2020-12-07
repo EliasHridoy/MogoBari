@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MogobariWebAPI.Models;
 using MogobariWebAPI.Models.ViewModels;
 using System;
