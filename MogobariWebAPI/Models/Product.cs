@@ -8,6 +8,7 @@ namespace MogobariWebAPI.Models
         public Product()
         {
             OrderItem = new HashSet<OrderItem>();
+            ProductPictureMapping = new HashSet<ProductPictureMapping>();
         }
 
         public int Id { get; set; }
@@ -76,5 +77,6 @@ namespace MogobariWebAPI.Models
         public virtual Category Category { get; set; }
         public virtual Vendor Vendor { get; set; }
         public virtual ICollection<OrderItem> OrderItem { get; set; }
+        public virtual ICollection<ProductPictureMapping> ProductPictureMapping { get; set; }
     }
 }
