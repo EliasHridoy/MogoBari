@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MogobariWebAPI.Models;
 using MogobariWebAPI.BL;
 using MogobariWebAPI.Models.ViewModels;
+using AutoMapper;
+using MogobariWebAPI.BL.Interface;
 
 namespace MogobariWebAPI.Controllers
 {
@@ -16,15 +18,17 @@ namespace MogobariWebAPI.Controllers
     public class CustomersController : ControllerBase
     {
         
-        private readonly CustomerManager _customerManager;
+        private readonly ICustomerManager _customerManager;
         private readonly AddressManager _addressManager;
         private readonly Mogobari_dbContext _context;
+        private readonly IMapper _mapper;
 
-        public CustomersController()
+        public CustomersController(IMapper mapper, ICustomerManager customerManager)
         {
-            _customerManager = new CustomerManager();
+            _customerManager = customerManager;
             _addressManager = new AddressManager();
             _context = new Mogobari_dbContext();
+            _mapper = mapper;
         }
         
 
@@ -129,8 +133,7 @@ namespace MogobariWebAPI.Controllers
             return customerDetails;
         }
 
-
-        
+                
 
         // Get: api/Customers/Register
         [HttpGet("Register")]
@@ -141,21 +144,37 @@ namespace MogobariWebAPI.Controllers
 
         // POST: api/Customers
         [HttpPost("Register")]
-        public  ActionResult<Customer> Register(Customer customer)
+        public  ActionResult<CustomerWithToken> Register([FromForm]CustomerRegisterViewModel customerRegister)
         {
             /// if customer already exists badreq
-            if (_customerManager.CustomerExists(customer.MobileNumber))
-            {
-                return BadRequest();
-            }
-            Customer saveCus = _customerManager.RegisterCustomer(customer);
-            if (saveCus == null)
+            if (_customerManager.CustomerExists(customerRegister.MobileNumber))
             {
                 return BadRequest();
             }
 
-            return saveCus;
+            CustomerWithToken savedCus = _customerManager.RegisterCustomer(customerRegister);
+            if (savedCus == null)
+            {
+                return BadRequest();
+            }
 
+            return savedCus;
+
+        }
+
+
+        // POST: api/Customers
+        [HttpPost("Login")]
+        public async Task<ActionResult<CustomerWithToken>> Login([FromBody] Login login)
+        {
+            var customerWithToken = await _customerManager.Login(login);
+
+            if(customerWithToken == null)
+            {
+                return NotFound();
+            }
+
+            return customerWithToken;
         }
 
 

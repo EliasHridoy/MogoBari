@@ -13,6 +13,9 @@ namespace MogobariWebAPI.Helper
         public MapperProfile()
         {
             CreateMap<ProductWithImageFile,Product>();
+            CreateMap<CustomerRegisterViewModel, Customer>();
+            CreateMap<Customer, CustomerWithToken>();
+            
         }
     }
 }

@@ -6,6 +6,9 @@ Scaffold-DbContext "Data Source=windows-7de51d1\sqlexpress;Initial Catalog=Mogob
 
 
 Database First : Update command
+
 Scaffold-DbContext "Data Source=windows-7de51d1\sqlexpress;Initial Catalog=Mogobari_db;Integrated Security=True" Microsoft.Entityframeworkcore.Sqlserver -OutputDir Models  -force
 
+other:
 
+Scaffold-DbContext -Connection name=RolebaseDb Microsoft.Entityframeworkcore.Sqlserver -OutputDir Models -force

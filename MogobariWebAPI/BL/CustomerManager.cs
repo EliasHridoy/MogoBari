@@ -1,20 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MogobariWebAPI.BL.Interface;
 using MogobariWebAPI.Models;
+using MogobariWebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MogobariWebAPI.BL
 {
-    public class CustomerManager
+    public class CustomerManager: ICustomerManager
     {
         private readonly Mogobari_dbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ITokenManager _tokenManager;
 
-        public CustomerManager()
+        public CustomerManager(IMapper mapper, ITokenManager tokenManager)
         {
             _context = new Mogobari_dbContext();
+            _mapper = mapper;
+            _tokenManager = tokenManager;
         }
 
 
@@ -23,6 +31,7 @@ namespace MogobariWebAPI.BL
             return _context.Customer
                             .Include(cus=>cus.Address)
                             .ToList();
+            
         }
         public Customer GetCustomer(string number)
         {
@@ -40,8 +49,11 @@ namespace MogobariWebAPI.BL
         }
 
 
-        public Customer RegisterCustomer(Customer customer)
+        public CustomerWithToken RegisterCustomer(CustomerRegisterViewModel customerRegister)
         {
+            CustomerPassword customerPassword = new CustomerPassword();
+            var customer = _mapper.Map<CustomerRegisterViewModel, Customer>(customerRegister);
+
             #region default value
             customer.Active = true;
             customer.Deleted = false;
@@ -49,6 +61,16 @@ namespace MogobariWebAPI.BL
             customer.LastLogin = DateTime.Now;
             customer.IsSystemAccount = false;
             #endregion
+
+
+            byte[] hash, salt;
+            _tokenManager.GenerateHash(customerRegister.Password, out hash, out salt);
+            customerPassword.PasswordHash = hash;
+            customerPassword.PasswordSalt = salt;
+            customerPassword.CreatedOnUtc = DateTime.UtcNow;
+            customer.CustomerPassword.Add(customerPassword);
+
+            
 
             _context.Customer.Add(customer);
             try
@@ -59,9 +81,53 @@ namespace MogobariWebAPI.BL
             {
                     return null;
             }
-            return customer;
+            var customerWithToken = _mapper.Map<Customer, CustomerWithToken>(customer);
+
+            customerWithToken.AccessToken = _tokenManager.GenerateAccessToken(customerWithToken.Id);
+
+            return customerWithToken;
         }
 
+
+
+        public async Task<CustomerWithToken> Login(Login login)
+        {
+
+            var user = await _context.Customer
+                                        .Where(u => u.Email == login.Email)
+                                        .Include(cs => cs.CustomerPassword)
+                                        .FirstOrDefaultAsync();
+            
+            bool res=false;
+            ICollection<CustomerPassword> customerPassword = user.CustomerPassword;
+
+            foreach(var pass in customerPassword)
+            {
+                byte[] hash, salt;
+                hash = pass.PasswordHash;
+                salt = pass.PasswordSalt;
+
+                res = _tokenManager.ValidateHash(login.Password, hash, salt);
+            }
+            
+
+            if (user != null && res)
+            {
+
+                //RefreshToken refreshToken = GenerateRefreshToken();
+                //user.RefreshTokens.Add(refreshToken);
+                //await _context.SaveChangesAsync();
+
+                var customerWithToken = _mapper.Map<Customer, CustomerWithToken>(user);
+
+                customerWithToken.AccessToken = _tokenManager.GenerateAccessToken(user.Id);
+                //userWithToken.RefreshToken = refreshToken.Token;
+
+                return customerWithToken;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Get method for update

@@ -26,6 +26,7 @@ namespace MogobariWebAPI.Models
         public virtual DbSet<Picture> Picture { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductPictureMapping> ProductPictureMapping { get; set; }
+        public virtual DbSet<RefreshTokenForCustomer> RefreshTokenForCustomer { get; set; }
         public virtual DbSet<Store> Store { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
@@ -135,6 +136,14 @@ namespace MogobariWebAPI.Models
 
             modelBuilder.Entity<CustomerPassword>(entity =>
             {
+                entity.Property(e => e.PasswordHash)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.PasswordSalt)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.CustomerPassword)
                     .HasForeignKey(d => d.CustomerId)
@@ -281,6 +290,32 @@ namespace MogobariWebAPI.Models
                     .WithMany(p => p.ProductPictureMapping)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK_Product_Picture_Mapping_ProductId_Product_Id");
+            });
+
+            modelBuilder.Entity<RefreshTokenForCustomer>(entity =>
+            {
+                entity.HasKey(e => e.TokenId)
+                    .HasName("PK_RefreshToken");
+
+                entity.Property(e => e.TokenId).HasColumnName("token_id");
+
+                entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+
+                entity.Property(e => e.ExpiryDate)
+                    .HasColumnName("expiry_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Token)
+                    .IsRequired()
+                    .HasColumnName("token")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.RefreshTokenForCustomer)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RefreshTokenForCustomer_Customer");
             });
 
             modelBuilder.Entity<Store>(entity =>

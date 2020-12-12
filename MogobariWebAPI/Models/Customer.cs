@@ -8,6 +8,7 @@ namespace MogobariWebAPI.Models
         public Customer()
         {
             CustomerPassword = new HashSet<CustomerPassword>();
+            RefreshTokenForCustomer = new HashSet<RefreshTokenForCustomer>();
         }
 
         public int Id { get; set; }
@@ -29,5 +30,6 @@ namespace MogobariWebAPI.Models
 
         public virtual Address Address { get; set; }
         public virtual ICollection<CustomerPassword> CustomerPassword { get; set; }
+        public virtual ICollection<RefreshTokenForCustomer> RefreshTokenForCustomer { get; set; }
     }
 }
